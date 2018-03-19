@@ -1,4 +1,5 @@
 This is a simple module that returns an object of the PDO class.  
+
 _Instalation_  
 -$ `composer require kolserdav/dbconnect`  
 -rename file .config-example to .config  
