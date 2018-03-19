@@ -14,3 +14,10 @@ _Instalation_
 -move file .config in root of your project  
 -add in file .config self variables  
 
+_Using_  
+`use Avir\Database\Modules\DBpdo;`  
+ `$dbPdo = new DBpdo;  
+ $pdo = $dbPdo->getPDO();`  
+ 
+ I will develop this...
+
