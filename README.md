@@ -3,5 +3,5 @@ _Instalation_
 -$ `composer require kolserdav/dbconnect`  
 -rename file .config-example to .config  
 -move file .config in root of your site  
--add in .config self variables  
+-add in file .config self variables  
 
