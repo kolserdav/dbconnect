@@ -3,6 +3,7 @@
     "description": "Module for simple connect to DataBase",
     "type": "library",
     "require": {
+        "php" : "^7.0",
         "symfony/yaml": "^4.0"
     },
     "require-dev": {

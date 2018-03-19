@@ -28,12 +28,13 @@ class Config
     {
         if(empty(self::$config)) {
             $root = self::getRoot();
-            self::$config =  Yaml::parseFile("$root/.config");
+            self::$config =  Yaml::parseFile("$root.config");
         }
         return self::$config;
     }
     public static function getRoot()
     {
-        return self::$root = $_SERVER['DOCUMENT_ROOT'];
+        preg_match('%.*vendor%',dirname(__DIR__),$m);
+        return self::$root = str_replace('vendor','',$m[0]);
     }
 }

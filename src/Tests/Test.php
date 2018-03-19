@@ -14,16 +14,17 @@ use PDO;
 
 class Test extends TestCase
 {
+    protected $root;
 
     protected function setUp ()
     {
-        preg_match('%.*modules%',dirname(__DIR__),$m);
-        $_SERVER['DOCUMENT_ROOT'] = str_replace('modules','',$m[0]);
+        preg_match('%.*vendor%',dirname(__DIR__),$m);
+        $this->root = str_replace('vendor','',$m[0]);
     }
     public function testDbConnect()
     {
-        $this->assertFileExists("$_SERVER[DOCUMENT_ROOT]/.config");
-        $this->assertIsReadable("$_SERVER[DOCUMENT_ROOT]/.config");
+        $this->assertFileExists("$this->root.config");
+        $this->assertIsReadable("$this->root.config");
         $this->assertInternalType('object', new Dbpdo());
     }
 
