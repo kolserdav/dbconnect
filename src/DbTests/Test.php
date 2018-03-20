@@ -6,7 +6,7 @@
  * Time: 23:54
  */
 
-namespace Avir\Database\Tests;
+namespace Avir\Database\DbTests;
 
 use PHPUnit\Framework\TestCase;
 use Avir\Database\Modules\Dbpdo;
