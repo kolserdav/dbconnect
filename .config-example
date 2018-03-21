@@ -1,8 +1,0 @@
-#Move this file in the root your project, rename to .config, and use self values
-#Database configuration MySql
-host : <host>
-port : 3306
-user : <userName>
-database : <dbName>
-password : <password>
-charset : utf-8

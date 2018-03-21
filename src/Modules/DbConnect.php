@@ -54,7 +54,7 @@ abstract class DbConnect
      */
     public function __construct()
     {
-        $data = Config::get();
+        $data = Config::getConfig();
         $this->host = $data['host'];
         $this->user = $data['user'];
         $this->password = $data['password'];

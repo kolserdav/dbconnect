@@ -17,6 +17,12 @@ class DBpdo extends DbConnect
      */
     public function getPDO()
     {
-        return new PDO($this->dsn, $this->user,$this->password, $this->opt);
+        try {
+            return new PDO($this->dsn, $this->user, $this->password, $this->opt);
+        }
+        catch (\Exception $e){
+            echo 'Invalid database connect: '.$e->getMessage();
+        }
     }
+
 }

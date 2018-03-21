@@ -15,26 +15,53 @@ class Config
      * @var array
      */
     protected static $config;
+
     /**
-     * Root of the site
+     * @var array
+     */
+    protected static $queries;
+
+    /**
+     * Root of the project
      * @var string
      */
     public static $root;
+
     /**
      * #Get a configuration from /.config
      * @return array
      */
-    public static function get()
+    public static function getConfig()
     {
         if(empty(self::$config)) {
             $root = self::getRoot();
-            self::$config =  Yaml::parseFile("$root.config");
+            self::$config =  Yaml::parseFile("$root/ConfDB/.config");
         }
         return self::$config;
     }
+
+    /**
+     * Getting queries from /ConfDB/.queries
+     * @return array
+     */
+    public static function getQueries()
+    {
+        //TODO ss
+        if(empty(self::$queries)) {
+            $root = self::getRoot(); $file  = "$root/ConfDB/queries.php";
+            require $file;
+            self::$queries = strtoupper();
+        }
+        return self::$queries;
+    }
+
+    /**
+     * Getting root the project
+     * @return string
+     */
     public static function getRoot()
     {
-        preg_match('%.*vendor%',dirname(__DIR__),$m);
-        return self::$root = str_replace('vendor','',$m[0]);
+        preg_match("%.*dbconnect%",dirname(__DIR__),$m);
+        return self::$root = preg_filter('%.{1}dbconnect%','',$m[0]);
     }
 }
