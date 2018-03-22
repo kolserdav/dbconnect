@@ -9,6 +9,7 @@
 namespace Avir\Database\Modules;
 
 use PDO;
+use Symfony\Component\Yaml\Yaml;
 
 abstract class DbConnect
 {
@@ -54,12 +55,27 @@ abstract class DbConnect
      */
     protected static $pdo;
     /**
+     * @var array
+     */
+    protected $config;
+
+    /**
+     * Root of the project
+     * @var string
+     */
+    public $root;
+
+    /**
+     * #Get a configuration from /.config
+     * @return array
+     */
+    /**
      * DbConnect constructor.
      */
 
     public function __construct()
     {
-        $data = Config::getConfig();
+        $data = $this->getConfig();
         $this->host = $data['host'];
         $this->user = $data['user'];
         $this->password = $data['password'];
@@ -87,6 +103,24 @@ abstract class DbConnect
         catch (\Exception $e){
             echo 'Invalid database connect: '.$e->getMessage();
         }
+    }
+    public function getConfig()
+    {
+        if(empty($this->config)) {
+            $root = self::getRoot();
+            $this->config =  Yaml::parseFile("$root/ConfDB/.config");
+        }
+        return $this->config;
+    }
+
+    /**
+     * Getting root the project
+     * @return string
+     */
+    public function getRoot()
+    {
+        preg_match("%.*dbconnect%",dirname(__DIR__),$m);
+        return $this->root = preg_filter('%.{1}dbconnect%','',$m[0]);
     }
 
 }

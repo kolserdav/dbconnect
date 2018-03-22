@@ -11,48 +11,38 @@ namespace Avir\Database\Modules;
 
 class FetchRules extends DB
 {
-    public function selectFetchRule($nameRule, $args)
+    public function selectFetchRule($stmt, $fetchRule, $fetchOption)
     {
-        $this->stmt = $this->getStmt($args['query'], $args['values']);
-        if (!empty($args['values'])){
-            $args['valuesOn'] = true;
-        }
-        switch ($nameRule){
+        $this->stmt = $stmt;
+
+        switch ($fetchRule){
             case 'fetch':
-                return $this->hisFetch($args, $args['valuesOn']);
+                return $this->hisFetch($fetchOption);
             case 'fetchAll':
-                return $this->hisFetchAll($args, $args['valuesOn']);
+                return $this->hisFetchAll($fetchOption);
             default:
-                throw new \InvalidArgumentException("$nameRule is a not valid variable of nameRule");
+                throw new \InvalidArgumentException("$fetchRule is a not valid variable of nameRule");
         }
     }
 
-    public function hisFetch($argv, $valuesOn = false)
+    public function hisFetch($fetchOption)
     {
-        if (!$valuesOn)
-        {
-            $stmt = $this->getStmt($argv['query']);
-            return $stmt->fetch($argv['fetchOption']);
-        }
-        return $this->stmt->fetch($argv['fetchOption']);
-    }
-
-    public function hisFetchAll($argv, $values)
-    {
-        if (!$values){
-            $stmt = $this->getStmt($argv['query']);
-            try {
-                return $stmt->fetchAll($argv['options']);
-            }
-            catch (\Exception $e){
-                echo 'Bad get attempt -fetchAll: '.$e->getMessage();
-            }
-        }
         try {
-            return $this->stmt->fetchAll($argv['options']);
+            return $this->stmt->fetch($fetchOption);
+        }
+        catch (\Exception $e) {
+            echo 'Bad get attempt _fetch: '.$e->getMessage();
+        }
+    }
+
+    public function hisFetchAll($fetchOption)
+    {
+        try {
+            return $this->stmt->fetchAll($fetchOption);
         }
         catch (\Exception $e){
             echo 'Bad get attempt _fetchAll: '.$e->getMessage();
         }
+        return false;
     }
 }

@@ -16,20 +16,41 @@ class DB extends DbConnect implements QueryPrepare
 {
 
     /**
+     * PDOStatement instance
      * @var object
      */
     protected $stmt;
 
-
-
+    /**
+     * Read queries from file
+     * @param $queryName
+     * @return string
+     */
     public function readQuery($queryName): string
     {
-        $root = Config::getRoot();
+        $root = $this->getRoot();
         $file  = "$root/ConfDB/queries.php"; require $file; // Connecting the queries file
-        $conf = Config::getConfig();
+        $conf = $this->getConfig();
         return str_replace('DataBaseName',$conf['database'],constant($queryName));
     }
 
+    /**
+     * @param array $args
+     * @return array|mixed
+     */
+    public function prepareQuery(array $args)
+    {
+        $this->stmt = $this->getStmt($args['query'], $args['values']);
+        return $this->stmtCall($this->stmt, $args['fetchRule'], $args['fetchOption']);
+
+    }
+
+    /**
+     * Getting PDOStatement instance
+     * @param string $query (sql syntax)
+     * @param array $values
+     * @return PDOStatement
+     */
     public function getStmt(string $query, $values = []): PDOStatement
     {
         if (!empty($values)) {
@@ -42,34 +63,44 @@ class DB extends DbConnect implements QueryPrepare
         return $stmt;
     }
 
-    public function prepareQuery(array $args)
-    {
-        return $this->setCustomFetchRules($args['customFetchRule'], $args);
-
-    }
-
-    public function setCustomFetchRules($nameRule, $argv)
+    /**
+     * @param \PDOStatement object
+     * @param string $fetchRule
+     * @param $fetchOption
+     * @return array|mixed
+     */
+    public function stmtCall(PDOStatement $stmt, $fetchRule, $fetchOption)
     {
         $rules = new FetchRules();
         try {
-            return $rules->selectFetchRule($nameRule, $argv);
+            return $rules->selectFetchRule($stmt, $fetchRule ,$fetchOption);
         }
         catch (\Exception $e){
             echo 'Invalid request to the database: '.$e->getMessage();
         }
     }
 
-
+    /**
+     * @param string $queryName
+     * @param array $values
+     * @param int $fetchOptionNum
+     * @param string $customFetchRule
+     * @return array|mixed
+     */
     public function dbCall(string $queryName, $values = array(),
         $fetchOptionNum = 0, $customFetchRule = 'fetch')
     {
         $args['values'] = $values;
-        $args['customFetchRule'] = $customFetchRule;
+        $args['fetchRule'] = $customFetchRule;
         $args['query'] = $this->readQuery($queryName);
         $args['fetchOption'] = $this->fetchOptionSet($fetchOptionNum);
         return $this->prepareQuery($args);
     }
 
+    /**
+     * @param $fetchOption
+     * @return int
+     */
     private function fetchOptionSet($fetchOption)
     {
         switch ($fetchOption)
