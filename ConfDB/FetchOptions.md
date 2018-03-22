@@ -1,5 +1,0 @@
-[0]`PDO::ATTR_DEFAULT_FETCH_MODE` "Default variable"
-[1]`PDO::FETCH_ASSOC`  "Return next row as an array indexed by column name"  
-[2]`PDO::FETCH_BOTH`  "Return next row as an array indexed by both column name and number"  
-[3]`PDO::FETCH_LAZY`  "Return next row as an anonymous object with column names as properties"  
-[4]`PDO::FETCH_OBJ`  "Return next row as an anonymous object with column names as properties"  

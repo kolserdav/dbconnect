@@ -41,21 +41,6 @@ class Config
     }
 
     /**
-     * Getting queries from /ConfDB/.queries
-     * @return array
-     */
-    public static function getQueries()
-    {
-        //TODO ss
-        if(empty(self::$queries)) {
-            $root = self::getRoot(); $file  = "$root/ConfDB/queries.php";
-            require $file;
-            self::$queries = strtoupper();
-        }
-        return self::$queries;
-    }
-
-    /**
      * Getting root the project
      * @return string
      */

@@ -9,28 +9,32 @@
 namespace Avir\Database\Modules;
 
 
-class FetchRules extends DBquery
+class FetchRules extends DB
 {
-    public function selectFetchRule($nameRule, $argv)
+    public function selectFetchRule($nameRule, $args)
     {
+        $this->stmt = $this->getStmt($args['query'], $args['values']);
+        if (!empty($args['values'])){
+            $args['valuesOn'] = true;
+        }
         switch ($nameRule){
             case 'fetch':
-                return $this->hisFetch($argv, $argv['values']);
+                return $this->hisFetch($args, $args['valuesOn']);
             case 'fetchAll':
-                return $this->hisFetchAll($argv, $argv['values']);
+                return $this->hisFetchAll($args, $args['valuesOn']);
             default:
                 throw new \InvalidArgumentException("$nameRule is a not valid variable of nameRule");
         }
     }
 
-    public function hisFetch($argv, $values)
+    public function hisFetch($argv, $valuesOn = false)
     {
-        if (!$values)
+        if (!$valuesOn)
         {
             $stmt = $this->getStmt($argv['query']);
-            return $stmt->fetch($this->fetchOption);
+            return $stmt->fetch($argv['fetchOption']);
         }
-        return $this->stmt->fetch($this->fetchOption);
+        return $this->stmt->fetch($argv['fetchOption']);
     }
 
     public function hisFetchAll($argv, $values)

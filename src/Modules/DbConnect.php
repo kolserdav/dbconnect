@@ -50,8 +50,13 @@ abstract class DbConnect
      */
     protected $opt;
     /**
+     * @var \PDO::object
+     */
+    protected static $pdo;
+    /**
      * DbConnect constructor.
      */
+
     public function __construct()
     {
         $data = Config::getConfig();
@@ -68,12 +73,20 @@ abstract class DbConnect
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             PDO::ATTR_EMULATE_PREPARES => false,
         ];
-
+        static::$pdo = $this->getPDO();
     }
 
     /**
      * @return PDO
      */
-    abstract public function getPDO();
+    public function getPDO()
+    {
+        try {
+            return new PDO($this->dsn, $this->user, $this->password, $this->opt);
+        }
+        catch (\Exception $e){
+            echo 'Invalid database connect: '.$e->getMessage();
+        }
+    }
 
 }
