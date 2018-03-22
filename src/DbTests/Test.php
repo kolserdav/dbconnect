@@ -8,9 +8,8 @@
 
 namespace Avir\Database\DbTests;
 
-use Avir\Database\Modules\Config;
 use PHPUnit\Framework\TestCase;
-use Avir\Database\Modules\Dbpdo;
+use Avir\Database\Modules\DB;
 use PDO;
 
 class Test extends TestCase
@@ -20,25 +19,42 @@ class Test extends TestCase
      * @var string
      */
     protected $root;
+    /**
+     * @var \PDOStatement
+     */
+    protected $stmt;
+
+    /**
+     * @var DB
+     */
+    protected $db;
 
     protected function setUp ()
     {
-        /**
-         * Getting root the project
-         */
         preg_match("%.*dbconnect%",dirname(__DIR__),$m);
         $this->root = preg_filter('%.{1}dbconnect%','',$m[0]);
+        $this->db = new DB();
+        $this->stmt = $this->db->getStmt("SELECT `id` FROM `users` WHERE `name` = :name", ['name'=>'Mark']);
     }
     public function testDbConnect()
     {
+
         $this->assertFileExists("$this->root/ConfDB/.config");
         $this->assertFileExists("$this->root/ConfDB/queries.php");
         $this->assertIsReadable("$this->root/ConfDB/.config");
         $this->assertIsReadable("$this->root/ConfDB/queries.php");
-        $this->assertNotNull(Config::getRoot());
-        $this->assertInternalType('array', Config::getConfig());
-        $this->assertInternalType('string', Config::getQueries());
-        $this->assertInternalType('object', new Dbpdo());
+        $this->assertInternalType('array', $this->db->getConfig());
+        $this->assertInstanceOf(\PDO::class, $this->db->getPDO());
+    }
+
+    public function testDbQuery()
+    {
+        $this->assertEquals(['id'=>1],$this->db->stmtCall($this->stmt, 'fetch',PDO::FETCH_ASSOC));
+        $this->assertEquals("SELECT `id` FROM `users` WHERE `name` = ?",$this->db->readQuery(test_query));
+        $this->assertInstanceOf(\PDOStatement::class, $this->db->getStmt("SELECT * FROM `users`" ));
+        $this->assertInstanceOf(\PDOStatement::class, $this->db->getStmt("SELECT `id` FROM `users` WHERE `name` = :name", ['name'=>'Mark']));
+        $this->assertInstanceOf(\PDORow::class,$this->db->stmtCall($this->stmt, 'fetch',PDO::FETCH_LAZY));
+
     }
 
 

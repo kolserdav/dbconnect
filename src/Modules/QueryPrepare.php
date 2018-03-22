@@ -22,7 +22,12 @@ interface QueryPrepare
 
     /**
      * Prepare query with params
-     * @param array $args ['values' = array(), 'query' = string, ]
+     * @param array $args [
+     * 'values' : array(),
+     * 'query' : string,
+     *'fetchOption' : string,
+     * 'customFetchRule' : string
+     * ]
      */
     public function prepareQuery(array $args);
 
@@ -32,6 +37,7 @@ interface QueryPrepare
      * @param array $values = array()
      * @param $fetchOptionNum = 0
      * @param $customFetchRule = 'fetch'
+     * @return array|mixed
      */
     public function dbCall(string $queryName,  $values = array(), $fetchOptionNum = 0, $customFetchRule = 'fetch');
 }
