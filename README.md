@@ -12,10 +12,14 @@ phpunit/phpunit : ^7.0`
 
 _Instalation_  
 -$ `composer require kolserdav/dbconnect`   
--$ `composer update`   
--rename file .config-example to .config  
--copy folder ConfDB in root of your project  
--add in file .config self variables  
+-$ `composer update`  
+  
+{   -rename file .config-example to .config  
+    -copy folder ConfDB in root of your project  
+    -add in file .config self variables
+}  
+or call:
+-$`php vendor/kolserdav/dbconnect/install`
 
 _Using_  
 

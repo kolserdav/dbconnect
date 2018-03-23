@@ -1,0 +1,15 @@
+<?php
+preg_match("%.*vendor%",dirname(__DIR__),$m);
+$root = preg_filter('%.{1}vendor%','',$m[0]);
+//echo dirname(__DIR__);
+echo "\nMake catalog /ConfDB ...\n";;
+@mkdir("$root/ConfDB");
+echo "Copy file /ConfDB/.config ...\n";
+copy(dirname(__FILE__).'./ConfDB/.config-example', "$root/ConfDB/.config");
+echo "Copy file /ConfDB/queries.php ...\n\n";
+copy(dirname(__FILE__).'./ConfDB/queries.php', "$root/ConfDB/queries.php");
+echo "Insert your DB configuration in /ConfDB/.config\n";
+
+
+
+
