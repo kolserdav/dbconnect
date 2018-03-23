@@ -8,6 +8,7 @@
 
 namespace Avir\Database\DbTests;
 
+use Avir\Database\Modules\FetchRules;
 use PHPUnit\Framework\TestCase;
 use Avir\Database\Modules\DB;
 use PDO;
@@ -29,12 +30,18 @@ class Test extends TestCase
      */
     protected $db;
 
+    /**
+     * @var FetchRules
+     */
+    protected $rules;
+
     protected function setUp ()
     {
-        preg_match("%.*dbconnect%",dirname(__DIR__),$m);
-        $this->root = preg_filter('%.{1}dbconnect%','',$m[0]);
+        preg_match("%.*vendor%",dirname(__DIR__),$m);
+        $this->root = preg_filter('%.{1}vendor%','',$m[0]);
         $this->db = new DB();
-        $this->stmt = $this->db->getStmt("SELECT `id` FROM `users` WHERE `name` = :name", ['name'=>'Mark']);
+        $this->stmt = $this->db->getStmt("SELECT `id` FROM `users` WHERE `name` = ?", ['Mark']);
+        $this->rules = new FetchRules();
     }
     public function testDbConnect()
     {
@@ -53,7 +60,10 @@ class Test extends TestCase
         $this->assertEquals("SELECT `id` FROM `users` WHERE `name` = ?",$this->db->readQuery(test_query));
         $this->assertInstanceOf(\PDOStatement::class, $this->db->getStmt("SELECT * FROM `users`" ));
         $this->assertInstanceOf(\PDOStatement::class, $this->db->getStmt("SELECT `id` FROM `users` WHERE `name` = :name", ['name'=>'Mark']));
-        $this->assertInstanceOf(\PDORow::class,$this->db->stmtCall($this->stmt, 'fetch',PDO::FETCH_LAZY));
+        $this->assertNotNull($this->rules->fetchRule($this->stmt, 'fetch',PDO::FETCH_ASSOC));
+        $this->assertNotNull($this->rules->hisGetColumnMeta($this->stmt, 3));
+        //$this->assertNotNull($this->db->dbCall(insert_values, ['test', 'test', 'test'], 1));
+        //TODO testing the database is difficult ... probably
 
     }
 

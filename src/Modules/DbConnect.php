@@ -17,6 +17,11 @@ abstract class DbConnect
      * @var string
      */
     protected $host;
+
+    /**
+     * @var string
+     */
+    protected $driver;
     /**
      * @var string
      */
@@ -45,7 +50,7 @@ abstract class DbConnect
     /**
      * @var string
      */
-    protected $dsn;
+    public $dsn;
     /**
      * @var array
      */
@@ -77,12 +82,13 @@ abstract class DbConnect
     {
         $data = $this->getConfig();
         $this->host = $data['host'];
+        $this->driver = $data['driver'];
         $this->user = $data['user'];
         $this->password = $data['password'];
         $this->charset = $data['charset'];
         $this->database = $data['database'];
         $this->port = $data['port'];
-        $this->dsn = "mysql:host={$this->host};\
+        $this->dsn = "$this->driver:host={$this->host};\
         port={$this->port};dbname={$this->database};charset={$this->charset}";
         $this->opt = [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -119,8 +125,8 @@ abstract class DbConnect
      */
     public function getRoot()
     {
-        preg_match("%.*dbconnect%",dirname(__DIR__),$m);
-        return $this->root = preg_filter('%.{1}dbconnect%','',$m[0]);
+        preg_match("%.*vendor%",dirname(__DIR__),$m);
+        return $this->root = preg_filter('%.{1}vendor%','',$m[0]);
     }
 
 }
