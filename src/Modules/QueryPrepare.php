@@ -35,9 +35,9 @@ interface QueryPrepare
      * Read query, prepare, send and return value in the form of an object
      * @param string $queryName
      * @param array $values = array()
-     * @param $fetchOptionNum = 0
+     * @param $fetchOption = 0
      * @param $customFetchRule = 'fetch'
      * @return array|mixed
      */
-    public function dbCall(string $queryName,  $values = array(), $fetchOptionNum = 0, $customFetchRule = 'fetch');
+    public function dbCall(string $queryName,  $values = array(), $fetchOption = 0, $customFetchRule = 'fetch');
 }

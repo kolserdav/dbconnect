@@ -1,0 +1,8 @@
+#Database configuration MySql
+driver : mysql
+host : empty
+port : 3306
+database : empty
+user : empty
+password : empty
+charset : utf8

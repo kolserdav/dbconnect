@@ -73,7 +73,7 @@ class DB extends DbConnect implements QueryPrepare
     {
         $rules = new FetchRules();
         try {
-            return $rules->selectFetchRule($stmt, $fetchRule ,$fetchOption);
+            return $rules->fetchRule($stmt, $fetchRule ,$fetchOption);
         }
         catch (\Exception $e){
             echo 'Invalid request to the database: '.$e->getMessage();
@@ -83,40 +83,25 @@ class DB extends DbConnect implements QueryPrepare
     /**
      * @param string $queryName
      * @param array $values
-     * @param int $fetchOptionNum
-     * @param string $customFetchRule
+     * @param int $fetchOption
+     * @param string $fetchRule
      * @return array|mixed
      */
     public function dbCall(string $queryName, $values = array(),
-        $fetchOptionNum = 0, $customFetchRule = 'fetch')
+        $fetchOption = 0, $fetchRule = 'fetch')
     {
         $args['values'] = $values;
-        $args['fetchRule'] = $customFetchRule;
+        $args['fetchRule'] = $fetchRule;
         $args['query'] = $this->readQuery($queryName);
-        $args['fetchOption'] = $this->fetchOptionSet($fetchOptionNum);
+        $args['fetchOption'] = $fetchOption;
         return $this->prepareQuery($args);
     }
 
-    /**
-     * @param $fetchOption
-     * @return int
-     */
-    private function fetchOptionSet($fetchOption)
+    public function Dtest($pdo, $query)
     {
-        switch ($fetchOption)
-        {
-            case 0:
-                return PDO::ATTR_DEFAULT_FETCH_MODE;
-            case 1:
-                return PDO::FETCH_ASSOC;
-            case 2:
-                return PDO::FETCH_BOTH;
-            case 3:
-                return PDO::FETCH_LAZY;
-            case 4:
-                return PDO::FETCH_OBJ;
-            default :
-                throw new \InvalidArgumentException("$fetchOption is not valid number the the fetch option. Use [0-4]");
-        }
+        static::$pdo = $pdo;
+        $stmt = self::$pdo->query($query);
+        return $stmt->fetch();
     }
+
 }
