@@ -1,4 +1,3 @@
-  git push --set-upstream origin dev
 
  This is a simple module that returns an object of the PDO class. MySql.  
 
