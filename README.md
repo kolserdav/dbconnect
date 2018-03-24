@@ -14,9 +14,9 @@ _Instalation_
 -$ `composer require kolserdav/dbconnect`   
 -$ `composer update`  
   
-{   -rename file .config-example to .config  
-    -copy folder ConfDB in root of your project  
-    -add in file .config self variables
+{   -rename file database-example.yaml to database.yaml  
+    -copy folder config in root of your project  
+    -add in file database.yaml self variables
 }  
 or call:
 -$`php vendor/kolserdav/dbconnect/install`
@@ -39,7 +39,7 @@ To send a request:
 
 `$db->stmtCall($stmt, $fetchRule, $fetchOption);`  
 
-Or insert your queries in to /Conf.db/queries.php
+Or insert your queries in to /config/queries.php
 and use:
 
 `$db->callDB($queryName, [$values] = array(), $fetchOption = 0, $fetchRule = 'fetch')`  
@@ -49,4 +49,4 @@ need call to FetchRule::class methods
 
 `hisFetch()`,`hisFetchColumn()`...
 
-While I do not know, whether to develop it or not.
+By results of work, I will improve this module...

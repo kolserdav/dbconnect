@@ -114,7 +114,7 @@ abstract class DbConnect
     {
         if(empty($this->config)) {
             $root = self::getRoot();
-            $this->config =  Yaml::parseFile("$root/ConfDB/.config");
+            $this->config =  Yaml::parseFile("$root/config/database.yaml");
         }
         return $this->config;
     }

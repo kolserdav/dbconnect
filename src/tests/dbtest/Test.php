@@ -6,7 +6,7 @@
  * Time: 23:54
  */
 
-namespace Avir\Database\DbTests;
+namespace Avir\Database\Tests\Dbtest;
 
 use Avir\Database\Modules\FetchRules;
 use PHPUnit\Framework\TestCase;
@@ -46,10 +46,10 @@ class Test extends TestCase
     public function testDbConnect()
     {
 
-        $this->assertFileExists("$this->root/ConfDB/.config");
-        $this->assertFileExists("$this->root/ConfDB/queries.php");
-        $this->assertIsReadable("$this->root/ConfDB/.config");
-        $this->assertIsReadable("$this->root/ConfDB/queries.php");
+        $this->assertFileExists("$this->root/config/database.yaml");
+        $this->assertFileExists("$this->root/config/queries.php");
+        $this->assertIsReadable("$this->root/config/database.yaml");
+        $this->assertIsReadable("$this->root/config/queries.php");
         $this->assertInternalType('array', $this->db->getConfig());
         $this->assertInstanceOf(\PDO::class, $this->db->getPDO());
     }

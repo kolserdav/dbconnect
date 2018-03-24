@@ -29,7 +29,7 @@ class DB extends DbConnect implements QueryPrepare
     public function readQuery($queryName): string
     {
         $root = $this->getRoot();
-        $file  = "$root/ConfDB/queries.php"; require $file; // Connecting the queries file
+        $file  = "$root/config/queries.php"; require $file; // Connecting the queries file
         $conf = $this->getConfig();
         return str_replace('DataBaseName',$conf['database'],constant($queryName));
     }
