@@ -11,7 +11,6 @@ namespace Avir\Database\Modules;
 use PDO;
 use PDOStatement;
 
-
 class DB extends DbConnect implements QueryPrepare
 {
 
@@ -32,14 +31,9 @@ class DB extends DbConnect implements QueryPrepare
         $file  = "$root/config/queries.php"; require $file; // Connecting the queries file
         $conf = $this->getConfig();
         @$queryConst = constant($queryName);
-        if ($queryConst === null){
-            try {
-                throw new \Exception("Not found constant $queryName in /config/queries.php");
-            }
-            catch (\Exception $e){
-                exit();
-            }
-
+        if ($queryConst == null){
+            echo "Not found constant $queryName in /config/queries.php as \$queryName";
+            exit();
         }
         return str_replace('DataBaseName',$conf['database'],$queryConst);
     }
