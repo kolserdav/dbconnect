@@ -65,8 +65,12 @@ class DB extends DbConnect implements QueryPrepare
                 $stmt = self::$pdo->query($query);
             }
             catch (\Exception $e){
+                $stmt = null;
                 echo 'Database query error: '.$e->getMessage();
             }
+        }
+        if ($stmt === null){
+            throw new \InvalidArgumentException('cannot stmt get');
         }
         return $stmt;
     }
