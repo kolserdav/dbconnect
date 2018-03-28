@@ -114,7 +114,16 @@ abstract class DbConnect
     {
         if(empty($this->config)) {
             $root = self::getRoot();
-            $this->config =  Yaml::parseFile("$root/config/database.yaml");
+            try {
+                $this->config = Yaml::parseFile("$root/config/database.yaml");
+            }
+            catch (\Exception $e){
+                echo "Error write file database.yaml. ".$e->getMessage();
+                $this->config = false;
+            }
+            if (!$this->config){
+                throw new \Exception('. /config/database.yaml not found');
+            }
         }
         return $this->config;
     }
