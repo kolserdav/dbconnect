@@ -53,6 +53,9 @@ class DB extends DbConnect implements QueryPrepare
      */
     public function getStmt(string $query, $values = []): PDOStatement
     {
+        if (empty(static::$pdo)){
+            $this->getConnect();
+        }
         if (!empty($values)) {
             $stmt = self::$pdo->prepare($query);
             $stmt->execute($values);
@@ -90,6 +93,9 @@ class DB extends DbConnect implements QueryPrepare
     public function dbCall(string $queryName, $values = array(),
         $fetchOption = 0, $fetchRule = 'fetch')
     {
+        if (empty(static::$pdo)){
+            $this->getConnect();
+        }
         $args['values'] = $values;
         $args['fetchRule'] = $fetchRule;
         $args['query'] = $this->readQuery($queryName);

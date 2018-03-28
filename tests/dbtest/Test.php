@@ -6,7 +6,7 @@
  * Time: 23:54
  */
 
-namespace Avir\Database\Tests\Dbtest;
+namespace Avir\Database\Dbtest;
 
 use Avir\Database\Modules\FetchRules;
 use PHPUnit\Framework\TestCase;

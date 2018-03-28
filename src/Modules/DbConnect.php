@@ -78,7 +78,7 @@ abstract class DbConnect
      * DbConnect constructor.
      */
 
-    public function __construct()
+    public function getConnect()
     {
         $data = $this->getConfig();
         $this->host = $data['host'];
