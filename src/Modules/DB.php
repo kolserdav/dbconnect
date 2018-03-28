@@ -31,7 +31,17 @@ class DB extends DbConnect implements QueryPrepare
         $root = $this->getRoot();
         $file  = "$root/config/queries.php"; require $file; // Connecting the queries file
         $conf = $this->getConfig();
-        return str_replace('DataBaseName',$conf['database'],constant($queryName));
+        @$queryConst = constant($queryName);
+        if ($queryConst === null){
+            try {
+                throw new \Exception("Not found constant $queryName in /config/queries.php");
+            }
+            catch (\Exception $e){
+                exit();
+            }
+
+        }
+        return str_replace('DataBaseName',$conf['database'],$queryConst);
     }
 
     /**
