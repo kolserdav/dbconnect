@@ -70,7 +70,13 @@ class DB extends DbConnect implements QueryPrepare
             }
         }
         if ($stmt === null){
-            throw new \InvalidArgumentException('cannot stmt get');
+            try {
+                throw new \Exception('. Cannot stmt get.');
+            }
+            catch (\Exception $e){
+                echo $e->getMessage();
+                exit();
+            }
         }
         return $stmt;
     }
