@@ -108,6 +108,7 @@ abstract class DbConnect
         }
         catch (\Exception $e){
             echo 'Invalid database connect: '.$e->getMessage();
+            exit();
         }
     }
     public function getConfig()
@@ -122,9 +123,16 @@ abstract class DbConnect
                 $this->config = false;
             }
             if (!$this->config){
-                throw new \Exception('. /config/database.yaml not found');
+                try {
+                    throw new \Exception('. /config/database.yaml not found');
+                }
+                catch (\Exception $e){
+                    echo $e->getMessage();
+                    exit();
+                }
             }
         }
+
         return $this->config;
     }
 
