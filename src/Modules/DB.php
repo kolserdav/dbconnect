@@ -27,6 +27,7 @@ class DB extends DbConnect implements QueryPrepare
      */
     public function readQuery($queryName): string
     {
+        $queryName = "'$queryName'";
         $root = $this->getRoot();
         $file  = "$root/config/queries.php"; require $file; // Connecting the queries file
         $conf = $this->getConfig();
